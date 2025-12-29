@@ -1,18 +1,21 @@
 pipeline {
     agent any
 
-    environment {
-        APP_VERSION = "1.0.0"
+    parameters {
+        booleanParam(name: 'RUN_TESTS', defaultValue: true, description: 'Run test stage?')
     }
 
     stages {
         stage('Build') {
             steps {
-                echo "Building version ${APP_VERSION}"
+                echo 'Building..'
             }
         }
 
         stage('Test') {
+            when {
+                expression { params.RUN_TESTS }
+            }
             steps {
                 echo 'Testing..'
             }
